@@ -13,7 +13,7 @@ async def on_ready():
     send_random_message.start()  
 
 
-@tasks.loop()  # Définissez l'intervalle de temps que vous voulez ici
+@tasks.loop(minutes=5)  # Définissez l'intervalle de temps que vous voulez ici
 async def send_random_message():
     conn = mysql.connector.connect(
         host= os.getenv('HOST'),

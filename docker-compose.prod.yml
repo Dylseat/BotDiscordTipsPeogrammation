@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db_prod:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=toto
+      - MYSQL_DATABASE=tips_programmations
+    volumes:
+      - db_data_prod:/var/lib/mysql
+      - ./sql/Prod:/docker-entrypoint-initdb.d
+  phpmyadmin_prod:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db_prod
+    ports:
+      - 8080:81
+    environment:
+      - PMA_HOST=db_prod
+  botdiscord_prod:
+    build: 
+      context: .
+      dockerfile: dockerfile_prod
+    environment:
+      - TOKEN
+      - HOST=db_prod
+    depends_on:
+      - db_prod
+    volumes:
+      - ./wait-for-it.sh:/wait-for-it.sh
+    command: ["./wait-for-it.sh", "db_prod:3306", "--", "python", "-u", "Scripts/main.py"]
+volumes:
+  db_data_prod:
