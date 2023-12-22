@@ -1,0 +1,17 @@
+# Utilise une image Python 3.12
+FROM python:3
+
+# Définit le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copie les fichiers de dépendances
+COPY requirements.txt .
+
+# Installe les dépendances
+RUN pip install -r requirements.txt
+
+# Copie le reste des fichiers du projet dans le conteneur
+COPY . .
+
+# Exécute l'application
+CMD ["python", "-u", "Scripts/main.py"]

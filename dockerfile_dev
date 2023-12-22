@@ -1,0 +1,23 @@
+# Utilise une image Python 3.12
+FROM python:3
+
+# Installe Node.js
+RUN apt-get update --fix-missing && apt-get install -y nodejs npm
+
+# Installe nodemon
+RUN npm install -g nodemon
+
+# Définit le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copie les fichiers de dépendances
+COPY requirements.txt .
+
+# Installe les dépendances
+RUN pip install -r requirements.txt
+
+# Copie le reste des fichiers du projet dans le conteneur
+COPY . .
+
+# Exécute l'application
+CMD ["nodemon", "--legacy-watch", "-e", "py", "--exec", "python", "-u", "Scripts/main.py"]
