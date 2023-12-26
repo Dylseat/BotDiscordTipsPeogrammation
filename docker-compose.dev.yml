@@ -1,5 +1,17 @@
+# Spécifie la version du fichier Docker Compose
 version: '3.8'
+
+# Commence la section pour définir les services
 services:
+
+# Définit un service nommé db_dev
+# Utilise la dernière image MySQL pour ce service
+# Définit les variables d'environnement pour le service MySQL
+# Définit le mot de passe root pour MySQL
+# Spécifie le nom de la base de données
+# Définit les volumes pour le service MySQL
+# Monte le volume db_data_dev au chemin spécifié dans le service MySQL
+# Monte les scripts SQL au chemin spécifié, qui sont exécutés lors de l'initialisation de la base de données
   db_dev:
     image: mysql:latest
     environment:
@@ -8,14 +20,36 @@ services:
     volumes:
       - db_data_dev:/var/lib/mysql
       - ./sql/Dev:/docker-entrypoint-initdb.d
+
+# Définit un service nommé phpmyadmin_dev
+# Utilise l'image phpMyAdmin pour ce service
+# Spécifie que ce service dépend d'un autre
+# Spécifie que phpmyadmin_dev dépend de db_dev
+# Expose les ports pour le service phpMyAdmin
+# Mappe le port 81 dans le service phpMyAdmin au port 8080 sur l'hôte
+# Définit les variables d'environnement pour le service phpMyAdmin
+# Définit l'hôte du serveur MySQL
   phpmyadmin_dev:
     image: phpmyadmin/phpmyadmin
     depends_on:
       - db_dev
     ports:
-      - 8080:81
+      - 8080:80
     environment:
       - PMA_HOST=db_dev
+
+# Définit un service nommé botdiscord_dev
+# Spécifie que ce service est construit à partir d'un Dockerfile
+# Définit le contexte de construction au répertoire courant
+# Spécifie le Dockerfile à utiliser pour construire l'image
+# Définit les variables d'environnement pour le service botdiscord_dev
+# Définit la variable d'environnement TOKEN
+# Définit la variable d'environnement HOST
+# Spécifie que ce service dépend d'un autre
+# Spécifie que botdiscord_dev dépend de db_dev
+# Définit les volumes pour le service botdiscord_dev
+# Monte le script wait-for-it.sh au chemin spécifié dans le service botdiscord_dev
+# Spécifie la commande à exécuter dans le service botdiscord_dev   
   botdiscord_dev:
     build:
       context: .
@@ -28,6 +62,9 @@ services:
       - ./wait-for-it.sh:/wait-for-it.sh
     depends_on:
       - db_dev
-    command: ["./wait-for-it.sh", "db_production:3306", "--", "nodemon", "--legacy-watch", "-e", "py", "--exec", "python", "-u", "Scripts/main.py"]
+    command: ["./wait-for-it.sh", "db_dev:3306", "--", "nodemon", "--legacy-watch", "-e", "py", "--exec", "python", "-u", "Scripts/main.py"]
+
+# Commence la section pour définir les volumes   
 volumes:
+  # Définit un volume nommé db_data_dev
   db_data_dev:

@@ -44,7 +44,7 @@ CREATE TABLE `t_c#` (
 -- Déchargement des données de la table `t_c#`
 --
 
-INSERT INTO `t_c#` (`id_C#`, `Types et gestion_de _la mémoire`, `Conventions`, `Comparaison_objet`, `Polymorphisme_héritage`, `Multihéritage_interface`, `Classes_abstraite`, `Héritage_vs_composition`, `Encapsulation`, `Test_unitaire`) VALUES
+INSERT INTO `t_c#` (`id_C#`, `Types_et_gestion_de_la_mémoire`, `Conventions`, `Comparaison_objet`, `Polymorphisme_héritage`, `Multihéritage_interface`, `Classes_abstraite`, `Héritage_vs_composition`, `Encapsulation`, `Test_unitaire`) VALUES
 (1, 'Quelle est la différence entre une classe et un objet ?\r\n\r\nL\'objet et l\'instance d\'une classe.\r\n', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, NULL, 'Je suis conventions', NULL, 'Je suis Poly', 'Je suis multi', 'Je suis abstrait', 'Je suis héritage', 'Je suis Encapsulation', NULL);
 
