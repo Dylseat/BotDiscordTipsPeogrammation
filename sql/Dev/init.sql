@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `t_c#` (
   `id_C#` int(11) NOT NULL,
-  `Types et gestion_de _la mémoire` text DEFAULT NULL,
+  `Types_et_gestion_de_la_mémoire` text DEFAULT NULL,
   `Conventions` text DEFAULT NULL,
   `Comparaison_objet` text DEFAULT NULL,
   `Polymorphisme_héritage` text DEFAULT NULL,
